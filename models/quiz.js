@@ -1,4 +1,4 @@
-// Definición del modelo de Quiz
+// DefiniciÃ³n del modelo de Quiz
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Quiz',
