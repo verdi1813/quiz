@@ -46,7 +46,7 @@ exports.publish = function(req, res) {
 
     res.redirect('/quizes/' + req.params.quizId);
 
-//    req.comment.save( {fields: ['publicado']} )
-//      .then(  function() { res.redirect('/quizes/' + req.params.quizId); } )
-//      .catch( function(error) { next(error) });
+    req.comment.save( {fields: ['publicado']} )
+      .then(  function() { res.redirect('/quizes/' + req.params.quizId); } )
+      .catch( function(error) { next(error) });
 };
