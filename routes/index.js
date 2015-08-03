@@ -15,8 +15,9 @@ router.get('/author', function(req, res) {
   res.render('author', { autor: 'Verdi1813', foto: 'verdi1813.jpg', errors: [] });
 });
 
-// Autoload de comando con :quizId
-router.param('quizId', quizController.load);
+// Autoload de comandos con :quizId
+router.param('quizId',    quizController.load);     // autoload :quidId
+router.param('commentId', commentController.load);  // autoload :commentId
 
 // Definición de rutas de sesión
 router.get('/login',    sessionController.new);     // formulario login
@@ -33,7 +34,9 @@ router.get('/quizes/:quizId(\\d+)/edit',            sessionController.loginRequi
 router.put('/quizes/:quizId(\\d+)',                 sessionController.loginRequired, quizController.update);
 router.delete('/quizes/:quizId(\\d+)',              sessionController.loginRequired, quizController.destroy);
 
+// Definición de rutas de comentarios
 router.get('/quizes/:quizId(\\d+)/comments/new',    commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',       commentController.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',    sessionController.loginRequired, commentController.publish);
 
 module.exports = router;
