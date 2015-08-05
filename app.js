@@ -28,9 +28,23 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Helpers din·micos:
+// control para autologout si m√°s de 2 minutos de inactividad
 app.use(function(req, res, next) {
-  // guardar path en session.redir para despuÈs de login
+  if (req.session.user) {
+    req.session.ultTrans = req.session.ultTrans || (new Date()).getTime();
+    if ((new Date()).getTime() - req.session.ultTrans > (2 * 60 * 1000)) {
+      delete req.session.user;
+      delete req.session.ultTrans;
+    } else {
+      req.session.ultTrans = (new Date()).getTime();
+    }
+  }
+  next();
+});
+
+// Helpers din√°micos:
+app.use(function(req, res, next) {
+  // guardar path en session.redir para despu√©s de login
   if (!req.path.match(/\/login|\/logout/)) {
     req.session.redir = req.path;
   }
@@ -48,6 +62,7 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
 
 // error handlers
 
